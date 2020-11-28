@@ -1,5 +1,5 @@
 def divisible_by_3(l):
-    
+    pass
 
 def solution(l):
     """

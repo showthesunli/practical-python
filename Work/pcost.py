@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
 # pcost.py
 #
-# Exercise 1.31
+# Exercise 1.33
+import sys
+
 def protfolio_cost(name):
     with open(name, 'rt') as f:
         next(f)
@@ -13,3 +17,11 @@ def protfolio_cost(name):
                 print('Waring Can\'t parse', line)
             
     return cost
+
+if len(sys.argv) == 2:
+    name = sys.argv[1]
+else:
+    name = 'Data/portfolio.csv'
+
+cost = protfolio_cost(name)
+print('Total cost:', cost)
