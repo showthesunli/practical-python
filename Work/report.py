@@ -37,8 +37,14 @@ if '__main__' == __name__:
     # print(read_prices('Data/prices.csv'))
     portfolio = read_portfolio('Data/portfolio.csv')
     prices = read_prices('Data/prices.csv')
+
     intres = 0.00
+    total_cost = 0.00
     for i in portfolio:
-        intres_of_one_share = prices[i['name']]*i['shares'] - i['shares']*i['price']
-        intres += intres_of_one_share
+        cost_of_one_share = i['shares']*i['price']
+        intres_of_one_share = prices[i['name']]*i['shares'] - cost_of_one_share
+        total_cost += cost_of_one_share
+
+    print('total cost is', total_cost)
+
     print('total gain is', intres)
