@@ -1,23 +1,32 @@
 # report.py
 #
-# Exercise 2.9
+# Exercise 2.16
 import csv
 import pprint
 
-def read_portfolio(filename) -> list:
+def read_portfolio(filename: str) -> list:
+    """
+    read stock prices to dict from portfolio.csv
+    """
     portfolio = []
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
+        header = next(rows)
         for row in rows:
             try:
-                portfolio.append({'name':row[0],
-                 'shares':int(row[1]), 'price':float(row[2])})
+                record = dict(zip(header, row))
+                print(record)
+                portfolio.append({
+                    'name': record['name'],
+                    'shares': int(record['shares']),
+                    'price': float(record['price'])
+                })
             except ValueError as identifier:
                 pass
             
     return portfolio
 
-def read_prices(filename) -> dict: 
+def read_prices(filename: str) -> dict: 
     """
     read stock prices to dict from prices.csv
     """
