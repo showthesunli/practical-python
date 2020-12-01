@@ -1,10 +1,10 @@
 # report.py
 #
-# Exercise 2.7
+# Exercise 2.9
 import csv
 import pprint
 
-def read_portfolio(filename):
+def read_portfolio(filename) -> list:
     portfolio = []
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
@@ -17,7 +17,7 @@ def read_portfolio(filename):
             
     return portfolio
 
-def read_prices(filename):
+def read_prices(filename) -> dict: 
     """
     read stock prices to dict from prices.csv
     """
@@ -30,6 +30,14 @@ def read_prices(filename):
             except Exception as identifier:
                 pass
     return prices
+
+def make_report(portfolio: list, prices: dict) -> list:
+    report = []
+    report.append(('name', 'Shares', 'Price', 'Change'))
+    for i in portfolio:
+        change = prices[i['name']] - i['price']
+        report.append((i['name'], i['shares'], i['price'], change))
+    return report
 
 if '__main__' == __name__:
     # print(read_portfolio('Data/portfolio.csv'))
@@ -48,3 +56,5 @@ if '__main__' == __name__:
     print('total cost is', total_cost)
 
     print('total gain is', intres)
+
+    print(make_report(portfolio, prices))
