@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 2.16
+# Exercise 3.1
 import csv
 import pprint
 
@@ -40,30 +40,20 @@ def read_prices(filename: str) -> dict:
                 pass
     return prices
 
-def make_report(portfolio: list, prices: dict) -> list:
+def print_report(portfolio: list, prices: dict) -> list:
+    '''
+    calculate and print the report of portfolio
+    '''
     report = []
     report.append(('name', 'Shares', 'Price', 'Change'))
     for i in portfolio:
         change = prices[i['name']] - i['price']
         report.append((i['name'], i['shares'], i['price'], change))
-    return report
-
-if '__main__' == __name__:
-    # print(read_portfolio('Data/portfolio.csv'))
-    # print(read_portfolio('Data/portfolio.csv'))
-    # print(read_prices('Data/prices.csv'))
-    portfolio = read_portfolio('Data/portfolio.csv')
-    prices = read_prices('Data/prices.csv')
-
     intres = 0.00
     total_cost = 0.00
     for i in portfolio:
         cost_of_one_share = i['shares']*i['price']
         intres_of_one_share = prices[i['name']]*i['shares'] - cost_of_one_share
         total_cost += cost_of_one_share
-
-    print('total cost is', total_cost)
-
-    print('total gain is', intres)
-
-    print(make_report(portfolio, prices))
+    report.append({'intres': intres, 'totcal_cost': total_cost})
+    return report
