@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 3.1
+# Exercise 3.2
 import csv
 import pprint
 
@@ -15,7 +15,6 @@ def read_portfolio(filename: str) -> list:
         for row in rows:
             try:
                 record = dict(zip(header, row))
-                print(record)
                 portfolio.append({
                     'name': record['name'],
                     'shares': int(record['shares']),
@@ -55,5 +54,18 @@ def print_report(portfolio: list, prices: dict) -> list:
         cost_of_one_share = i['shares']*i['price']
         intres_of_one_share = prices[i['name']]*i['shares'] - cost_of_one_share
         total_cost += cost_of_one_share
+        intres += intres_of_one_share
     report.append({'intres': intres, 'totcal_cost': total_cost})
+    return report
+
+def portfolio_report(portfolio: str, prices: str) -> list:
+    '''
+    read portfolio and prices files, then print the report
+    '''
+    portfolio = read_portfolio(portfolio)
+    prices = read_prices(prices)
+
+    report = print_report(portfolio, prices)
+    
+    print(report)
     return report
