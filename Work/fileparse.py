@@ -1,21 +1,27 @@
 # fileparse.py
 #
-# Exercise 3.4
+# Exercise 3.5
 
 import csv
 
-def parse_csv(filename: str,select = None) -> list:
-    records = []
+def parse_csv(filename: str,select: list = None, types: list = None) -> list:
+    records = [] 
+    indes = []
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         header = next(rows)
+        
+        if select:
+            indes = [header.index(key) for key in select]
+            header = select
         for row in rows:
-            record = dict(zip(header, row))
-            records.append(record)
-    new_records = []
-    if select:
-        for record in records:
-            new_record = {key: record[key] for key in record.keys() if key in select}
-            new_records.append(new_record)
-        return new_records
+            record = row
+
+            if indes:
+                record = [row[i] for i in indes]
+            if types:
+                record = [func(val) for func, val in zip(types, row)]
+            
+            records.append(dict(zip(header, record)))
     return records
+     
