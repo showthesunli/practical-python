@@ -4,13 +4,13 @@
 
 import csv
 
-def parse_csv(filename: str,select: list = None, types: list = None) -> list:
+def parse_csv(filename: str, select: list = None, types: list = None, hashead = True) -> list:
     records = [] 
     indes = []
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
-        header = next(rows)
-        
+        header = next(rows) if hashead else []
+
         if select:
             indes = [header.index(key) for key in select]
             header = select
@@ -22,6 +22,10 @@ def parse_csv(filename: str,select: list = None, types: list = None) -> list:
             if types:
                 record = [func(val) for func, val in zip(types, row)]
             
-            records.append(dict(zip(header, record)))
+            if hashead:
+                records.append(dict(zip(header, record)))
+            else:
+
+                records.append(tuple(record))
     return records
      
