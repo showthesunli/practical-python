@@ -1,10 +1,13 @@
 # fileparse.py
 #
-# Exercise 3.7
+# Exercise 3.9
 
 import csv
 
 def parse_csv(filename: str, select: list = None, types: list = None, hashead = True, delimiter = ',') -> list:
+    if select and not hashead:
+        raise RuntimeError('select argument requires colum header')
+
     records = [] 
     indes = []
     with open(filename, 'rt') as f:
@@ -16,15 +19,19 @@ def parse_csv(filename: str, select: list = None, types: list = None, hashead = 
             indes = [header.index(key) for key in select]
             header = select
 
-        for row in rows:
+        for rowno, row in enumerate(rows):
             record = row
-            if indes:
-                record = [row[i] for i in indes]
-            if types:
-                record = [func(val) for func, val in zip(types, row)]
-            if hashead:
-                records.append(dict(zip(header, record)))
-            else:
-                records.append(tuple(record))
+            try:
+                if indes:
+                    record = [row[i] for i in indes]
+                if types:
+                    record = [func(val) for func, val in zip(types, row)]
+                if hashead:
+                    records.append(dict(zip(header, record)))
+                else:
+                    records.append(tuple(record))   
+            except ValueError as e:
+                print('rowno: ', rowno, 'reason', e)
+                print('rowno: ', rowno, 'can\'t convert', row)
     return records
      
