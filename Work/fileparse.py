@@ -1,10 +1,10 @@
 # fileparse.py
 #
-# Exercise 3.9
+# Exercise 3.10
 
 import csv
 
-def parse_csv(filename: str, select: list = None, types: list = None, hashead = True, delimiter = ',') -> list:
+def parse_csv(filename: str, select: list = None, types: list = None, hashead = True, delimiter = ',', silece_error = True) -> list:
     if select and not hashead:
         raise RuntimeError('select argument requires colum header')
 
@@ -31,7 +31,8 @@ def parse_csv(filename: str, select: list = None, types: list = None, hashead = 
                 else:
                     records.append(tuple(record))   
             except ValueError as e:
-                print('rowno: ', rowno, 'reason', e)
-                print('rowno: ', rowno, 'can\'t convert', row)
+                if not silece_error:
+                    print('rowno: ', rowno, 'reason', e)
+                    print('rowno: ', rowno, 'can\'t convert', row)
     return records
      
