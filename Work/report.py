@@ -1,8 +1,10 @@
+#! /usr/bin/env python
 # report.py
 #
-# Exercise 3.2
+# Exercise 3.15
 import csv
 import pprint
+from fileparse import parse_csv
 
 def read_portfolio(filename: str) -> list:
     """
@@ -55,17 +57,33 @@ def print_report(portfolio: list, prices: dict) -> list:
         intres_of_one_share = prices[i['name']]*i['shares'] - cost_of_one_share
         total_cost += cost_of_one_share
         intres += intres_of_one_share
-    report.append({'intres': intres, 'totcal_cost': total_cost})
-    return report
+    # report.append({'intres': intres, 'totcal_cost': total_cost})
+    
+    #print report
+    
+    header = report[0]
+    print(f'{header[0]:10s} {header[1]:10s} {header[2]:10s} {header[3]:10s}')
+    print(('-'*10+' ')*4)
+    for row in report[1:]:
+        print(f'{row[0]:10s} {row[1]:10d} {row[2]:10.2f} {row[3]:10.2f}')
+    print(f'intres: {intres:10.2f} total_cost: {total_cost:10.2f}')
 
-def portfolio_report(portfolio: str, prices: str) -> list:
+def portfolio_report(portfolio: str, prices: str):
     '''
     read portfolio and prices files, then print the report
     '''
-    portfolio = read_portfolio(portfolio)
-    prices = read_prices(prices)
+    portfolio = parse_csv(portfolio, select=['name', 'shares', 'price'], types=[str, int, float])
+    prices = dict(parse_csv(prices, types=[str, float], hashead=False))
 
-    report = print_report(portfolio, prices)
-    
-    print(report)
-    return report
+    print_report(portfolio, prices)
+
+
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) != 3:
+        raise SystemExit(f'Usage: python {sys.argv[0]} portfoliofile pricesfile')
+
+    portfolio = sys.argv[1]
+    prices = sys.argv[2]
+    portfolio_report(portfolio, prices)
+        

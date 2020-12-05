@@ -4,7 +4,7 @@
 
 import csv
 
-def parse_csv(filename: str, select: list = None, types: list = None, hashead = True, delimiter = ',', silece_error = True) -> list:
+def parse_csv(filename: str, select: list = None, types: list = None, hashead = True, delimiter = ',', silece_error = True):
     if select and not hashead:
         raise RuntimeError('select argument requires colum header')
 
@@ -20,6 +20,9 @@ def parse_csv(filename: str, select: list = None, types: list = None, hashead = 
             header = select
 
         for rowno, row in enumerate(rows):
+            if not row:
+                continue
+
             record = row
             try:
                 if indes:
