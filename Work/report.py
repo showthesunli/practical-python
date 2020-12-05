@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # report.py
 #
-# Exercise 3.15
+# Exercise 3.18
 import csv
 import pprint
 from fileparse import parse_csv
@@ -10,20 +10,8 @@ def read_portfolio(filename: str) -> list:
     """
     read stock prices to dict from portfolio.csv
     """
-    portfolio = []
     with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        header = next(rows)
-        for row in rows:
-            try:
-                record = dict(zip(header, row))
-                portfolio.append({
-                    'name': record['name'],
-                    'shares': int(record['shares']),
-                    'price': float(record['price'])
-                })
-            except ValueError as identifier:
-                pass
+        portfolio = fileparse.read_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
             
     return portfolio
 
@@ -31,14 +19,9 @@ def read_prices(filename: str) -> dict:
     """
     read stock prices to dict from prices.csv
     """
-    prices = {}
     with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        for row in rows:
-            try:
-                prices[row[0]] = float(row[1])
-            except Exception as identifier:
-                pass
+        prices = fileparse.read_csv(f, types=[str, float], hashead=False)
+    prices = dict(prices)
     return prices
 
 def print_report(portfolio: list, prices: dict) -> list:
@@ -72,8 +55,11 @@ def portfolio_report(portfolio: str, prices: str):
     '''
     read portfolio and prices files, then print the report
     '''
-    portfolio = parse_csv(portfolio, select=['name', 'shares', 'price'], types=[str, int, float])
-    prices = dict(parse_csv(prices, types=[str, float], hashead=False))
+    with open(portfolio, 'rt') as f:
+        portfolio = parse_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
+    
+    with open(prices, 'rt') as f:
+        prices = dict(parse_csv(f, types=[str, float], hashead=False))
 
     print_report(portfolio, prices)
 

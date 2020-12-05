@@ -2,26 +2,21 @@
 # -*- coding: UTF-8 -*-
 # pcost.py
 #
-# Exercise 3.15
+# Exercise 3.18
 import sys
 import csv
+from fileparse import parse_csv
 
 def protfolio_cost(name):
     '''
     Calculate the cost of portfolio
     '''
     with open(name, 'rt') as f:
-        rows = csv.reader(f)
-        header = next(rows)
+        rows = parse_csv(f ,types=[str, int, float], select=['name', 'shares', 'price'])
+        
         cost = 0
         for row in rows:
-            record = dict(zip(header, row))
-            try:
-                shares = int(record['shares'])
-                price = float(record['price'])
-                cost += shares*price
-            except ValueError as identifier:
-                print('Waring Can\'t parse', row)
+            cost += row['shares']*row['price']
             
     return cost
 
