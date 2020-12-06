@@ -2,22 +2,21 @@
 # -*- coding: UTF-8 -*-
 # pcost.py
 #
-# Exercise 3.18
+# Exercise 4.4
 import sys
 import csv
 from fileparse import parse_csv
+from stock import Stock
+from report import read_portfolio
 
 def protfolio_cost(name):
     '''
     Calculate the cost of portfolio
     '''
-    with open(name, 'rt') as f:
-        rows = parse_csv(f ,types=[str, int, float], select=['name', 'shares', 'price'])
-        
-        cost = 0
-        for row in rows:
-            cost += row['shares']*row['price']
-            
+    stocks = read_portfolio(name)
+    cost = 0
+    for stock in stocks:
+        cost += stock.shares*stock.price
     return cost
 
 

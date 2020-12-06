@@ -30,7 +30,7 @@ def parse_csv(lines, select: list = None, types: list = None, hashead = True, de
             if indes:
                 record = [row[i] for i in indes]
             if types:
-                record = [func(val) for func, val in zip(types, row)]
+                record = [func(val) for func, val in zip(types, record)]
             if hashead:
                 records.append(dict(zip(header, record)))
             else:
@@ -39,5 +39,6 @@ def parse_csv(lines, select: list = None, types: list = None, hashead = True, de
             if not silece_error:
                 print('rowno: ', rowno, 'reason', e)
                 print('rowno: ', rowno, 'can\'t convert', row)
+    
     return records
      
