@@ -25,9 +25,9 @@ def read_prices(filename: str) -> dict:
     prices = dict(prices)
     return prices
 
-def print_report(portfolio: list, prices: dict) -> list:
+def make_report_data(portfolio: list, prices: dict) ->list:
     '''
-    calculate and print the report of portfolio
+    make raw data of report
     '''
     report = []
     report.append(('name', 'Shares', 'Price', 'Change'))
@@ -41,16 +41,21 @@ def print_report(portfolio: list, prices: dict) -> list:
         intres_of_one_share = prices[stock.name]*stock.shares - cost_of_one_share
         total_cost += cost_of_one_share
         intres += intres_of_one_share
-    # report.append({'intres': intres, 'totcal_cost': total_cost})
-    
-    #print report
-    
-    header = report[0]
-    print(f'{header[0]:10s} {header[1]:10s} {header[2]:10s} {header[3]:10s}')
+    count = {'intres':intres,'total_cost':total_cost}
+    report.append(count)
+    return report
+
+def print_report(rawdata: list) -> list:
+    '''
+    print the report of portfolio
+    '''
+    header = rawdata[0]
+    print(f'{header[0]:>10s} {header[1]:>10s} {header[2]:>10s} {header[3]:>10s}')
     print(('-'*10+' ')*4)
-    for row in report[1:]:
-        print(f'{row[0]:10s} {row[1]:10d} {row[2]:10.2f} {row[3]:10.2f}')
-    print(f'intres: {intres:10.2f} total_cost: {total_cost:10.2f}')
+    for row in rawdata[1:-1]:
+        print(f'{row[0]:>10s} {row[1]:10d} {row[2]:10.2f} {row[3]:10.2f}')
+    count = rawdata[-1]
+    print(f'intres: {count["intres"]:.2f} total_cost: {count["total_cost"]:.2f}')
 
 def portfolio_report(portfolio: str, prices: str):
     '''
@@ -61,8 +66,10 @@ def portfolio_report(portfolio: str, prices: str):
 
 
     prices = read_prices(prices)
+    rawdata = make_report_data(portfolio, prices)
+    print(rawdata[-1])
 
-    print_report(portfolio, prices)
+    print_report(rawdata)
 
 
 if __name__ == '__main__':
