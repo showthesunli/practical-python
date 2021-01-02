@@ -3,6 +3,7 @@
 # Exercise 3.10
 
 import csv
+from typing import Any
 
 def parse_csv(lines, select: list = None, types: list = None, hashead = True, delimiter = ',', silece_error = True):
     
@@ -10,7 +11,7 @@ def parse_csv(lines, select: list = None, types: list = None, hashead = True, de
     if select and not hashead:
         raise RuntimeError('select argument requires colum header')
 
-    records = [] 
+    records: Any = [] 
     indes = []
     
     rows = csv.reader(lines, delimiter = delimiter)
@@ -25,7 +26,7 @@ def parse_csv(lines, select: list = None, types: list = None, hashead = True, de
         if not row:
             continue
 
-        record = row
+        record: Any = row
         try:
             if indes:
                 record = [row[i] for i in indes]

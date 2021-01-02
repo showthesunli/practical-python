@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/home/leeorz/miniconda3/bin/python",
+    "python.pythonPath": "/home/leeorz/miniconda3/envs/test38/bin/python",
     "python.autoComplete.extraPaths": ["./Work"]
 }

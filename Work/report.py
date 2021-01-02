@@ -7,6 +7,7 @@ import pprint
 from fileparse import parse_csv
 from stock import Stock
 from tableformat import TextTableFormatter
+from typing import TypeVar, List, Dict, Tuple, Any
 
 def read_portfolio(filename: str) -> list:
     """
@@ -30,7 +31,8 @@ def make_report_data(portfolio: list, prices: dict) ->list:
     '''
     make raw data of report
     '''
-    report = []
+    
+    report: Any = []
     report.append(('name', 'Shares', 'Price', 'Change'))
     for stock in portfolio:
         change = prices[stock.name] - stock.price
@@ -46,7 +48,7 @@ def make_report_data(portfolio: list, prices: dict) ->list:
     report.append(count)
     return report
 
-def print_report(rawdata: list, textTableFormatter: TextTableFormatter) -> list:
+def print_report(rawdata: list, textTableFormatter: TextTableFormatter) -> bool:
     '''
     print the report of portfolio
     '''
@@ -59,13 +61,15 @@ def print_report(rawdata: list, textTableFormatter: TextTableFormatter) -> list:
     count = rawdata[-1]
     textTableFormatter.foot(count)
 
+    return True
+
 def portfolio_report(portfolio: str, prices: str):
     '''
     read portfolio and prices files, then print the report
     '''
-    portfolio = read_portfolio(portfolio)
-    prices = read_prices(prices)
-    rawdata = make_report_data(portfolio, prices)
+    portfolio_data = read_portfolio(portfolio)
+    prices_data = read_prices(prices)
+    rawdata = make_report_data(portfolio_data, prices_data)
     textTableFormatter = TextTableFormatter()
     print_report(rawdata, textTableFormatter)
 
