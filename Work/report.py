@@ -1,11 +1,12 @@
 #! /usr/bin/env python
 # report.py
 #
-# Exercise 4.4
+# Exercise 4.6
 import csv
 import pprint
 from fileparse import parse_csv
 from stock import Stock
+from tableformat import TextTableFormatter
 
 def read_portfolio(filename: str) -> list:
     """
@@ -45,17 +46,18 @@ def make_report_data(portfolio: list, prices: dict) ->list:
     report.append(count)
     return report
 
-def print_report(rawdata: list) -> list:
+def print_report(rawdata: list, textTableFormatter: TextTableFormatter) -> list:
     '''
     print the report of portfolio
     '''
     header = rawdata[0]
-    print(f'{header[0]:>10s} {header[1]:>10s} {header[2]:>10s} {header[3]:>10s}')
-    print(('-'*10+' ')*4)
+    textTableFormatter.heading(header)
+    
     for row in rawdata[1:-1]:
-        print(f'{row[0]:>10s} {row[1]:10d} {row[2]:10.2f} {row[3]:10.2f}')
+        textTableFormatter.row(row)
+    
     count = rawdata[-1]
-    print(f'intres: {count["intres"]:.2f} total_cost: {count["total_cost"]:.2f}')
+    textTableFormatter.foot(count)
 
 def portfolio_report(portfolio: str, prices: str):
     '''
@@ -64,7 +66,8 @@ def portfolio_report(portfolio: str, prices: str):
     portfolio = read_portfolio(portfolio)
     prices = read_prices(prices)
     rawdata = make_report_data(portfolio, prices)
-    print_report(rawdata)
+    textTableFormatter = TextTableFormatter()
+    print_report(rawdata, textTableFormatter)
 
 
 if __name__ == '__main__':
