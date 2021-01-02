@@ -14,7 +14,7 @@ class Stock:
         self.shares = shares
         self.price = price
 
-    def cost(self):
+    def cost(self) -> float:
         """
         docstring
         """

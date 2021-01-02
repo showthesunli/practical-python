@@ -61,14 +61,9 @@ def portfolio_report(portfolio: str, prices: str):
     '''
     read portfolio and prices files, then print the report
     '''
-   
     portfolio = read_portfolio(portfolio)
-
-
     prices = read_prices(prices)
     rawdata = make_report_data(portfolio, prices)
-    print(rawdata[-1])
-
     print_report(rawdata)
 
 
