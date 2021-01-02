@@ -6,7 +6,7 @@ import csv
 import pprint
 from fileparse import parse_csv
 from stock import Stock
-from tableformat import TextTableFormatter
+from tableformat import TextTableFormatter, CSVTbaleFormatter
 from typing import TypeVar, List, Dict, Tuple, Any
 
 def read_portfolio(filename: str) -> list:
@@ -71,7 +71,8 @@ def portfolio_report(portfolio: str, prices: str):
     prices_data = read_prices(prices)
     rawdata = make_report_data(portfolio_data, prices_data)
     textTableFormatter = TextTableFormatter()
-    print_report(rawdata, textTableFormatter)
+    cSVTbaleFormatter = CSVTbaleFormatter()
+    print_report(rawdata, cSVTbaleFormatter)
 
 
 if __name__ == '__main__':
