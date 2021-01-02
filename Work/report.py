@@ -6,8 +6,8 @@ import csv
 import pprint
 from fileparse import parse_csv
 from stock import Stock
-from tableformat import TextTableFormatter, CSVTbaleFormatter
-from typing import TypeVar, List, Dict, Tuple, Any
+from tableformat import TextTableFormatter, CSVTableFormatter, TableFormatter, createFormatter
+from typing import TypeVar, List, Dict, Tuple, Any, Optional
 
 def read_portfolio(filename: str) -> list:
     """
@@ -31,7 +31,6 @@ def make_report_data(portfolio: list, prices: dict) ->list:
     '''
     make raw data of report
     '''
-    
     report: Any = []
     report.append(('name', 'Shares', 'Price', 'Change'))
     for stock in portfolio:
@@ -48,39 +47,42 @@ def make_report_data(portfolio: list, prices: dict) ->list:
     report.append(count)
     return report
 
-def print_report(rawdata: list, textTableFormatter: TextTableFormatter) -> bool:
+def print_report(rawdata: list, formatter: TableFormatter) -> bool:
     '''
     print the report of portfolio
     '''
     header = rawdata[0]
-    textTableFormatter.heading(header)
+    formatter.heading(header)
     
     for row in rawdata[1:-1]:
-        textTableFormatter.row(row)
+        formatter.row(row)
     
     count = rawdata[-1]
-    textTableFormatter.foot(count)
+    formatter.foot(count)
 
     return True
 
-def portfolio_report(portfolio: str, prices: str):
+def portfolio_report(portfolio: str, prices: str, fmt:str = 'plantext'):
     '''
     read portfolio and prices files, then print the report
     '''
     portfolio_data = read_portfolio(portfolio)
     prices_data = read_prices(prices)
     rawdata = make_report_data(portfolio_data, prices_data)
-    textTableFormatter = TextTableFormatter()
-    cSVTbaleFormatter = CSVTbaleFormatter()
-    print_report(rawdata, cSVTbaleFormatter)
+    formatter = createFormatter(fmt)
+    print_report(rawdata, formatter)
 
 
 if __name__ == '__main__':
     import sys
-    if len(sys.argv) != 3:
-        raise SystemExit(f'Usage: python {sys.argv[0]} portfoliofile pricesfile')
+    if len(sys.argv) != 3 and len(sys.argv) != 4:
+        raise SystemExit(f'Usage: python {sys.argv[0]} portfoliofile pricesfile fmt')
 
     portfolio = sys.argv[1]
     prices = sys.argv[2]
-    portfolio_report(portfolio, prices)
+    if len(sys.argv) == 4:
+        fmt = sys.argv[3]
+        portfolio_report(portfolio, prices, fmt)
+    else:
+        portfolio_report(portfolio, prices)
         

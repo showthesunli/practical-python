@@ -1,4 +1,8 @@
 {
     "python.pythonPath": "/home/leeorz/miniconda3/envs/test38/bin/python",
-    "python.autoComplete.extraPaths": ["./Work"]
+    "python.autoComplete.extraPaths": [
+        "./Work"
+    ],
+    "python.linting.enabled": true,
+    "python.linting.mypyEnabled": true
 }
