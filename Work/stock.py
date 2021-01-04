@@ -14,9 +14,10 @@ class Stock:
         self.shares = shares
         self.price = price
 
+    @property
     def cost(self) -> float:
         """
-        docstring
+        computa the value of property with name cost
         """
         return self.shares*self.price
     

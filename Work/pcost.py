@@ -13,10 +13,10 @@ def protfolio_cost(name):
     '''
     Calculate the cost of portfolio
     '''
-    stocks = read_portfolio(name)
+    stocks:Stock = read_portfolio(name)
     cost = 0
     for stock in stocks:
-        cost += stock.shares*stock.price
+        cost += stock.cost
     return cost
 
 
