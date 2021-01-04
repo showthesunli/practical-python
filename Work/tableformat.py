@@ -5,6 +5,9 @@ from typing import TypeVar, Tuple, Dict, Tuple
 type_of_rowdata = TypeVar('type_of_rowdata', str, int, float)
 type_of_row = Tuple[type_of_rowdata, type_of_rowdata, type_of_rowdata, type_of_rowdata]
 
+class FormatterError(Exception):
+    pass
+
 class TableFormatter:
 
     def heading(self, header: Tuple[str, str, str, str]):
@@ -57,5 +60,5 @@ def createFormatter(fmt: str = 'plantext') -> TableFormatter:
     elif fmt == 'CSV':
         return CSVTableFormatter()
     else:
-        raise ValueError('No such formatter')
+        raise FormatterError(f'No such formatter "{fmt}"')
     
