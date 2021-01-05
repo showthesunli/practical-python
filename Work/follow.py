@@ -1,8 +1,8 @@
 import os
 import time
+from report import read_portfolio
 
-def follow(filename):
-
+def follow(filename: str):
     f = open(filename)
     f.seek(0, os.SEEK_END)
     while True:
@@ -13,12 +13,13 @@ def follow(filename):
 
 
 if __name__ == '__main__':
-    it = follow('Data/stocklog.csv')
-    for line in it:
+    portfolio = read_portfolio('Data/portfolio.csv')
+
+    for line in follow('Data/stocklog.csv'):
         fields = line.split(',')
         name = fields[0].strip('"')
         price = float(fields[1])
         change = float(fields[4])
-        if change<0:
+        if name in portfolio:
             print(f'{name:>10s} {price:>10.2f} {change:>10.2f}')
 
