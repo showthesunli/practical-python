@@ -11,6 +11,15 @@ class Portfolio:
     
     def __iter__(self):
         return self._holding.__iter__()
+    
+    def __len__(self):
+        return len(self._holding)
+    
+    def __getitem__(self, index: int) -> Stock:
+        return self._holding[index]
+
+    def __contains__(self, name: str) -> bool:
+        return any([name == stock.name for stock in self._holding])
 
     @property
     def cost_shares(self) -> float:
