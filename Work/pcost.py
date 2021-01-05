@@ -8,16 +8,15 @@ import csv
 from fileparse import parse_csv
 from stock import Stock
 from report import read_portfolio
+from portfolio import Portfolio
 
-def protfolio_cost(name):
+def protfolio_cost(name) -> float:
     '''
     Calculate the cost of portfolio
     '''
-    stocks:Stock = read_portfolio(name)
-    cost = 0
-    for stock in stocks:
-        cost += stock.cost
-    return cost
+    stocks = read_portfolio(name)
+    portfolio = Portfolio(stocks)
+    return portfolio.cost_shares
 
 
 def main(argv):

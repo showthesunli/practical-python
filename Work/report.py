@@ -8,15 +8,17 @@ from fileparse import parse_csv
 from stock import Stock
 from tableformat import TextTableFormatter, CSVTableFormatter, TableFormatter, createFormatter
 from typing import TypeVar, List, Dict, Tuple, Any, Optional
+from portfolio import Portfolio
 
-def read_portfolio(filename: str) -> list:
+def read_portfolio(filename: str) -> Portfolio:
     """
     read stock prices to dict from portfolio.csv
     """
     with open(filename, 'rt') as f:
         file_content = parse_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
-    portfolio = [Stock(row['name'], row['shares'], row['price']) for row in file_content]
-    return portfolio
+    stocks = [Stock(row['name'], row['shares'], row['price']) for row in file_content]
+    portfolios = Portfolio(stocks)
+    return portfolios
 
 def read_prices(filename: str) -> dict: 
     """
@@ -80,9 +82,10 @@ if __name__ == '__main__':
 
     portfolio = sys.argv[1]
     prices = sys.argv[2]
+    arguments = [portfolio, prices]
     if len(sys.argv) == 4:
         fmt = sys.argv[3]
-        portfolio_report(portfolio, prices, fmt)
-    else:
-        portfolio_report(portfolio, prices)
+        arguments.append(fmt)
+    
+    portfolio_report(*arguments)
         

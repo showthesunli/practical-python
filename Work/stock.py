@@ -6,6 +6,8 @@ class Stock:
     """
     stock class
     """
+    __slots__ = ('name', 'shares', 'price')
+
     def __init__(self, name, shares, price):
         """
         docstring

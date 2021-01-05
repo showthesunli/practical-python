@@ -55,6 +55,9 @@ class CSVTableFormatter(TableFormatter):
         print(f'total_cost,{count_data["total_cost"]:.2f}')
 
 def createFormatter(fmt: str = 'plantext') -> TableFormatter:
+    '''
+    creat formatter depend on a str
+    '''
     if fmt == 'plantext':
         return TextTableFormatter()
     elif fmt == 'CSV':
