@@ -10,13 +10,16 @@ from tableformat import TextTableFormatter, CSVTableFormatter, TableFormatter, c
 from typing import TypeVar, List, Dict, Tuple, Any, Optional
 from portfolio import Portfolio
 
-def read_portfolio(filename: str) -> Portfolio:
+def read_portfolio(filename: str, **opts) -> Portfolio:
     """
     read stock prices to dict from portfolio.csv
     """
     with open(filename, 'rt') as f:
-        file_content = parse_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
-    stocks = [Stock(row['name'], row['shares'], row['price']) for row in file_content]
+        file_content = parse_csv(f, 
+                                 select=['name', 'shares', 'price'], 
+                                 types=[str, int, float], 
+                                 **opts)
+    stocks = [Stock(**row) for row in file_content]
     portfolios = Portfolio(stocks)
     return portfolios
 

@@ -5,7 +5,12 @@
 import csv
 from typing import Any
 
-def parse_csv(lines, select: list = None, types: list = None, hashead = True, delimiter = ',', silece_error = True):
+def parse_csv(lines, 
+              select: list = None, 
+              types: list = None, 
+              hashead = True, 
+              delimiter = ',', 
+              silece_error = False):
     
 
     if select and not hashead:
