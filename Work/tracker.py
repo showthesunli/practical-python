@@ -1,6 +1,13 @@
 from follow import follow
-from typing import List
+from typing import List, Dict
+from report import read_portfolio
+from portfolio import Portfolio
 import csv
+
+def filter_symbols(rows: List[Dict], portfolio: Portfolio):
+    for row in rows:
+        if row['name'] in portfolio:
+            yield row
 
 def make_dict(rows: List, header: List[str]):
     for row in rows:
@@ -22,7 +29,9 @@ def parse_stock_data(csvflie):
     return rows
 
 if __name__ == '__main__':
+    portfolio = read_portfolio('Data/portfolio.csv')
     it_follow = follow('Data/stocklog.csv')
     rows = parse_stock_data(it_follow)
+    rows = filter_symbols(rows, portfolio)
     for row in rows:
         print(row)
