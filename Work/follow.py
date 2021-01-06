@@ -3,7 +3,7 @@ import time
 from report import read_portfolio
 
 def follow(filename: str):
-    f = open(filename)
+    f = open(filename, 'rt')
     f.seek(0, os.SEEK_END)
     while True:
         line = f.readline()
