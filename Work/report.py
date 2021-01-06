@@ -37,7 +37,7 @@ def make_report_data(portfolio: list, prices: dict) ->list:
     report.append(('name', 'Shares', 'Price', 'Change'))
     for stock in portfolio:
         change = prices[stock.name] - stock.price
-        report.append((stock.name, stock.shares, stock.price, change))
+        report.append((stock.name, f"{stock.shares}", f"{stock.price:0.2f}", f"{change:0.2f}"))
     intres = 0.00
     total_cost = 0.00
     for i in portfolio:
